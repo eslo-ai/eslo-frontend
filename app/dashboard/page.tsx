@@ -18,6 +18,12 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  function connectGmail() {
+    const token = localStorage.getItem("eslo_token");
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    window.location.href = `${apiUrl}/tools/gmail/connect?token=${token}`;
+  }
+
   // ── On page load: check auth + fetch agents ──────────────────────────────
   useEffect(() => {
     // Job 1: not logged in? go to login
@@ -70,13 +76,25 @@ export default function DashboardPage() {
                 : `${agents.length} agent${agents.length > 1 ? "s" : ""} ready`}
             </p>
           </div>
-          <button
-            onClick={() => router.push("/agents/new")}
-            className="bg-violet-600 hover:bg-violet-500 text-white 
-                       px-4 py-2 rounded-lg text-sm font-semibold transition"
-          >
-            + New Agent
-          </button>
+
+          {/* Header action buttons */}
+          <div className="flex gap-3">
+            <button
+              onClick={connectGmail}
+              className="bg-zinc-800 hover:bg-zinc-700 text-white 
+                         px-4 py-2 rounded-lg text-sm font-semibold transition"
+            >
+              Connect Gmail
+            </button>
+            <button
+              onClick={() => router.push("/agents/new")}
+              className="bg-violet-600 hover:bg-violet-500 text-white 
+                         px-4 py-2 rounded-lg text-sm font-semibold transition"
+            >
+              + New Agent
+            </button>
+          </div>
+
         </div>
 
         {/* Error message */}
